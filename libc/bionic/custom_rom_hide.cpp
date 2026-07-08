@@ -54,6 +54,10 @@ static const char* const kProcFilterKeywords[] = {
     "Lineage",
     "hertzify",
     "Hertzify",
+    "PixelOS",
+    "pixelos",
+    "ayakaui",
+    "AyakaUI",
     "omnirom",
     "aospa",
     "chaldeaprjkt",
@@ -110,7 +114,7 @@ static inline ssize_t raw_readlinkat(const char* path, char* buf, size_t size) {
 }
 
 static const char* const kAllowlistedPackages[] = {
-    "com.hertzify.updater",
+    "net.ayakaui.ota",
     nullptr
 };
 
@@ -260,14 +264,14 @@ bool custom_rom_hide_should_filter_dirent(int dirfd, const char* name) {
 
 static int create_encoded_memfd(const char* path) {
     char memfd_name[250];
-    snprintf(memfd_name, sizeof(memfd_name), "hertzify:%s", path);
+    snprintf(memfd_name, sizeof(memfd_name), "ayakaui:%s", path);
     return raw_memfd_create(memfd_name, 0);
 }
 
 ssize_t custom_rom_hide_readlink_post(char* buf, size_t size, ssize_t ret) {
     if (ret <= 0 || !is_app_process()) return ret;
 
-    const char* prefix = "/memfd:hertzify:";
+    const char* prefix = "/memfd:ayakaui:";
     size_t prefix_len = 13;
 
     if (ret > static_cast<ssize_t>(prefix_len) && strncmp(buf, prefix, prefix_len) == 0) {
@@ -511,6 +515,10 @@ static const char* const kVintfFilterKeywords[] = {
     "Lineage",
     "hertzify",
     "Hertzify",
+    "AyakaUI",
+    "ayakaui",
+    "PixelOS",
+    "pixelos",
     nullptr
 };
 
@@ -566,6 +574,9 @@ int custom_rom_hide_filter_vintf(const char* path) {
 static const char* const kSpoofedEmptyProps[] = {
     "ro.hertzify.version",
     "ro.hertzify.build.version",
+    "ro.custom.version",
+    "ro.custom.build.version",
+    "ro.ayaka.version",
     "init.svc_debug_pid.adb_root",
     "init.svc_debug_pid.adbd",
     "init.svc.adb_root",
